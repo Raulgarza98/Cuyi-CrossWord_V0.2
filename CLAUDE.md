@@ -81,3 +81,56 @@ All loaded from `.env` at project root:
 | `VITE_DISCORD_CLIENT_ID` | client (Vite build-time) |
 
 The `client/vite.config.js` reads `.env` from `../` (project root) so the same `.env` serves all components.
+
+## Git & GitHub Workflow
+
+### First-time setup (already done)
+```bash
+git init
+git branch -M main
+gh repo create Cuyi-CrossWord_V0.2 --private --source=. --remote=origin --push
+```
+
+### Daily workflow
+```bash
+git status                        # see what changed
+git diff                          # review unstaged changes
+git add <file> [<file2> ...]      # stage specific files (never use git add -A blindly)
+git commit -m "Short description" # commit staged changes
+git push                          # push to origin/main
+```
+
+### Useful shortcuts
+```bash
+git log --oneline -10             # last 10 commits, compact
+git diff HEAD                     # all changes since last commit
+git diff <file>                   # changes in one file
+git restore <file>                # discard unstaged changes in a file (destructive)
+git stash                         # temporarily shelve uncommitted changes
+git stash pop                     # restore stashed changes
+```
+
+### Branches (for bigger features)
+```bash
+git checkout -b feature/my-feature   # create + switch to a new branch
+git checkout main                    # switch back to main
+git merge feature/my-feature         # merge feature into main
+git branch -d feature/my-feature     # delete merged branch
+```
+
+### GitHub (via gh CLI)
+```bash
+gh repo view --web                   # open repo in browser
+gh pr create                         # create a pull request interactively
+gh pr list                           # list open PRs
+gh issue list                        # list open issues
+gh issue create                      # create an issue interactively
+```
+
+### Never commit
+- `.env` — contains live Discord tokens and NYT cookie
+- `venv/` — Python virtual environment
+- `data/crossword.db` — live user data
+- `client/node_modules/` — npm dependencies
+
+All of these are in `.gitignore`. Run `git status` before every commit to confirm.
